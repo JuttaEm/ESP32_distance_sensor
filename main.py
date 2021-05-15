@@ -1,29 +1,39 @@
+import api
 import distance
 import machine
 import time
+import urequests
 
 
-#tim1 = machine.Timer(1)
-
+# initialize count from zero
 count = 0
 
-
-def increase_counter(tim1):
-    global count
-    count += 1
-    return count
-
-
-# tim1.init(period=3000, mode=machine.Timer.PERIODIC,
-    # callback=lambda t: increase_counter)
+# initialize api key
+key = api.API_KEY
 
 try:
     while True:
         dist = distance.get_distance()
+        dist_str = str(dist)
         if dist < 50:
-            print(dist)
+            print(dist_str)
             count += 1
             print(count)
-        time.sleep(4)
-except KeyboardInterrupt:
-    pass
+            sensordata = {'value1': dist_str[:-3], 'value2': count}
+            print(sensordata)
+
+            request_headers = {'Content-Type': 'application/json'}
+
+            request = urequests.post(
+                'http://maker.ifttt.com/trigger/dog_is_drinking/with/key/' + key,
+                json=sensordata,
+                headers=request_headers
+            )
+
+            print(request.text)
+            request.close()
+
+            time.sleep(4)
+
+except OSError as e:
+    print('Failed to read/publish sensor readings')
