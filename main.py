@@ -15,7 +15,7 @@ try:
     while True:
         dist = distance.get_distance()
         dist_str = str(dist)
-        if ((dist >= 10) and (dist <= 50)):
+        if ((dist >= 10) and (dist <= 20)):
             print(dist_str)
             count += 1
             print(count)
@@ -32,9 +32,7 @@ try:
         else:
             pass
 
-        time.sleep(8)
+        time.sleep(6)
 
-except KeyboardInterrupt:
-    pass
-# except OSError as e:
-    #print('Failed to read/publish sensor readings')
+except OSError as e:
+    print('Failed to read/publish sensor readings')
