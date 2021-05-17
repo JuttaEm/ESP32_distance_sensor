@@ -1,3 +1,5 @@
+# only for preliminary testing with esp, not relevant to the distance sensor
+
 import time
 from machine import Pin
 
